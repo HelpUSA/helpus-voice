@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
-import { Play, Download, Share2, Loader2, Volume2, Settings2, Sparkles, Check } from 'lucide-react';
+import { Download, Share2, Loader2, Volume2, Settings2, Sparkles } from 'lucide-react';
+import { type TranslationSchema } from '../i18n/translations';
 
 interface VoiceStudioProps {
+  t: TranslationSchema['studio'];
   initialText?: string;
 }
 
-export const VoiceStudio: React.FC<VoiceStudioProps> = ({ initialText = '' }) => {
+export const VoiceStudio: React.FC<VoiceStudioProps> = ({ t, initialText = '' }) => {
   const [text, setText] = useState(initialText);
   const [voice, setVoice] = useState('pt-BR-AntonioNeural');
   const [rate, setRate] = useState('+0%');
   const [loading, setLoading] = useState(false);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
-  const [copied, setCopied] = useState(false);
 
-  // Update text when prop changes
   React.useEffect(() => {
     if (initialText) {
       setText(initialText);
@@ -21,9 +21,9 @@ export const VoiceStudio: React.FC<VoiceStudioProps> = ({ initialText = '' }) =>
   }, [initialText]);
 
   const voices = [
-    { id: 'pt-BR-AntonioNeural', name: '👨 Antônio (Masculino - Comercial / Profissional)', desc: 'Tom seguro e envolvente' },
-    { id: 'pt-BR-FranciscaNeural', name: '👩 Francisca (Feminino - Atendimento / Suave)', desc: 'Tom amigável e receptivo' },
-    { id: 'pt-BR-ThalitaNeural', name: '👩 Thalita (Feminino - Jovem / Dinâmica)', desc: 'Tom moderno e ágil' }
+    { id: 'pt-BR-AntonioNeural', name: t.voices.antonioName, desc: t.voices.antonioDesc },
+    { id: 'pt-BR-FranciscaNeural', name: t.voices.franciscaName, desc: t.voices.franciscaDesc },
+    { id: 'pt-BR-ThalitaNeural', name: t.voices.thalitaName, desc: t.voices.thalitaDesc }
   ];
 
   const handleGenerate = async () => {
@@ -42,11 +42,11 @@ export const VoiceStudio: React.FC<VoiceStudioProps> = ({ initialText = '' }) =>
       if (data.success && data.audioUrl) {
         setAudioUrl(`http://localhost:4000${data.audioUrl}`);
       } else {
-        alert('Erro ao gerar áudio. Verifique se o servidor backend está rodando.');
+        alert(t.serverError);
       }
     } catch (err) {
       console.error(err);
-      alert('Não foi possível conectar ao motor de IA (http://localhost:4000).');
+      alert(t.serverError);
     } finally {
       setLoading(false);
     }
@@ -54,7 +54,7 @@ export const VoiceStudio: React.FC<VoiceStudioProps> = ({ initialText = '' }) =>
 
   const handleShareWhatsApp = () => {
     if (!audioUrl) return;
-    const msg = `Ouça a mensagem de voz gravada via HelpUs Voice: ${audioUrl}`;
+    const msg = `${t.whatsappMsg} ${audioUrl}`;
     window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
   };
 
@@ -63,10 +63,10 @@ export const VoiceStudio: React.FC<VoiceStudioProps> = ({ initialText = '' }) =>
       <div className="flex items-center justify-between mb-4 pb-4 border-b border-slate-800">
         <div className="flex items-center gap-2">
           <Settings2 className="w-5 h-5 text-cyan-400" />
-          <h2 className="font-bold text-lg text-white">Configurações do Áudio</h2>
+          <h2 className="font-bold text-lg text-white">{t.configTitle}</h2>
         </div>
         <span className="text-xs text-slate-400">
-          Caracteres: <strong className="text-cyan-400">{text.length}</strong> / 2000
+          {t.charCount}: <strong className="text-cyan-400">{text.length}</strong> / 2000
         </span>
       </div>
 
@@ -74,7 +74,7 @@ export const VoiceStudio: React.FC<VoiceStudioProps> = ({ initialText = '' }) =>
         {/* Voice Selector */}
         <div>
           <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
-            Selecione a Voz Neural
+            {t.voiceSelectLabel}
           </label>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             {voices.map((v) => (
@@ -98,7 +98,7 @@ export const VoiceStudio: React.FC<VoiceStudioProps> = ({ initialText = '' }) =>
         {/* Speed Selector */}
         <div>
           <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
-            Velocidade da Fala
+            {t.speedLabel}
           </label>
           <div className="flex gap-2">
             {['-20%', '+0%', '+15%', '+30%'].map((r) => (
@@ -112,7 +112,7 @@ export const VoiceStudio: React.FC<VoiceStudioProps> = ({ initialText = '' }) =>
                     : 'border-slate-800 bg-slate-950 text-slate-400 hover:border-slate-700'
                 }`}
               >
-                {r === '+0%' ? 'Normal (1.0x)' : `${r}`}
+                {r === '+0%' ? t.speedNormal : `${r}`}
               </button>
             ))}
           </div>
@@ -121,13 +121,13 @@ export const VoiceStudio: React.FC<VoiceStudioProps> = ({ initialText = '' }) =>
         {/* Text Area */}
         <div>
           <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
-            Texto / Roteiro da Mensagem
+            {t.textLabel}
           </label>
           <textarea
             value={text}
             onChange={(e) => setText(e.target.value)}
             rows={5}
-            placeholder="Digite ou cole aqui o texto que você deseja transformar em áudio de alta qualidade..."
+            placeholder={t.placeholder}
             className="w-full p-4 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all font-sans text-sm resize-none"
           />
         </div>
@@ -141,12 +141,12 @@ export const VoiceStudio: React.FC<VoiceStudioProps> = ({ initialText = '' }) =>
           {loading ? (
             <>
               <Loader2 className="w-5 h-5 animate-spin" />
-              <span>Gerando Áudio Neural com IA...</span>
+              <span>{t.generatingBtn}</span>
             </>
           ) : (
             <>
               <Sparkles className="w-5 h-5" />
-              <span>Gerar Áudio de Alta Qualidade</span>
+              <span>{t.generateBtn}</span>
             </>
           )}
         </button>
@@ -157,10 +157,10 @@ export const VoiceStudio: React.FC<VoiceStudioProps> = ({ initialText = '' }) =>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2 text-cyan-400 font-bold text-sm">
                 <Volume2 className="w-5 h-5 animate-bounce" />
-                <span>Áudio Gerado com Sucesso!</span>
+                <span>{t.resultTitle}</span>
               </div>
               <span className="text-[10px] bg-cyan-950 text-cyan-300 px-2 py-0.5 rounded border border-cyan-800">
-                Formato MP3 320kbps
+                {t.mp3Badge}
               </span>
             </div>
 
@@ -173,7 +173,7 @@ export const VoiceStudio: React.FC<VoiceStudioProps> = ({ initialText = '' }) =>
                 className="flex-1 py-2.5 px-4 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs flex items-center justify-center gap-2 transition-all"
               >
                 <Download className="w-4 h-4 text-cyan-400" />
-                <span>Baixar `.mp3`</span>
+                <span>{t.downloadBtn}</span>
               </a>
 
               <button
@@ -181,7 +181,7 @@ export const VoiceStudio: React.FC<VoiceStudioProps> = ({ initialText = '' }) =>
                 className="flex-1 py-2.5 px-4 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer"
               >
                 <Share2 className="w-4 h-4" />
-                <span>Enviar pelo WhatsApp</span>
+                <span>{t.whatsappBtn}</span>
               </button>
             </div>
           </div>

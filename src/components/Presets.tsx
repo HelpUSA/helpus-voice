@@ -1,41 +1,43 @@
 import React from 'react';
 import { Scissors, Home, MessageSquare, ShoppingBag } from 'lucide-react';
+import { type TranslationSchema } from '../i18n/translations';
 
 interface PresetsProps {
+  t: TranslationSchema['presets'];
   onSelectPreset: (text: string) => void;
 }
 
-export const Presets: React.FC<PresetsProps> = ({ onSelectPreset }) => {
+export const Presets: React.FC<PresetsProps> = ({ t, onSelectPreset }) => {
   const presets = [
     {
       icon: Scissors,
-      title: 'Agendamento Barbearia',
-      text: 'Olá! Seu horário para corte e barba está confirmado para amanhã às 15 horas. Caso precise reagendar, avise por aqui!',
-      badge: 'Barbearia'
+      title: t.barberTitle,
+      text: t.barberText,
+      badge: t.barberBadge
     },
     {
       icon: Home,
-      title: 'Oferta Imobiliária',
-      text: 'Olá! Acabamos de receber um apartamento incrível de 3 suítes na orla com condição exclusiva. Posso te enviar as fotos?',
-      badge: 'Imóveis'
+      title: t.realestateTitle,
+      text: t.realestateText,
+      badge: t.realestateBadge
     },
     {
       icon: MessageSquare,
-      title: 'Lembrete de Atendimento',
-      text: 'Olá! Passando para confirmar nossa reunião de alinhamento de amanhã. Nos vemos em breve!',
-      badge: 'Atendimento'
+      title: t.supportTitle,
+      text: t.supportText,
+      badge: t.supportBadge
     },
     {
       icon: ShoppingBag,
-      title: 'Promoção Comercial',
-      text: 'Aproveite a nossa semana especial com descontos de até 30% em todos os serviços. Garanta a sua vaga agora!',
-      badge: 'Vendas'
+      title: t.salesTitle,
+      text: t.salesText,
+      badge: t.salesBadge
     }
   ];
 
   return (
     <div className="mb-6">
-      <h3 className="text-xs uppercase font-bold text-slate-400 tracking-wider mb-3">Modelos Prontos para Uso Rápido</h3>
+      <h3 className="text-xs uppercase font-bold text-slate-400 tracking-wider mb-3">{t.sectionTitle}</h3>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
         {presets.map((p, idx) => {
           const Icon = p.icon;
