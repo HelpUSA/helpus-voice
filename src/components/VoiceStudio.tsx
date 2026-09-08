@@ -31,8 +31,12 @@ export const VoiceStudio: React.FC<VoiceStudioProps> = ({ t, initialText = '' })
     setLoading(true);
     setAudioUrl(null);
 
+    const apiEndpoint = import.meta.env.VITE_API_URL
+      ? `${import.meta.env.VITE_API_URL}/api/tts`
+      : '/api/tts';
+
     try {
-      const response = await fetch('http://localhost:4000/api/tts', {
+      const response = await fetch(apiEndpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text, voice, rate })
@@ -40,7 +44,12 @@ export const VoiceStudio: React.FC<VoiceStudioProps> = ({ t, initialText = '' })
 
       const data = await response.json();
       if (data.success && data.audioUrl) {
-        setAudioUrl(`http://localhost:4000${data.audioUrl}`);
+        if (data.audioUrl.startsWith('data:') || data.audioUrl.startsWith('http')) {
+          setAudioUrl(data.audioUrl);
+        } else {
+          const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+          setAudioUrl(`${baseUrl}${data.audioUrl}`);
+        }
       } else {
         alert(t.serverError);
       }

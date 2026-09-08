@@ -72,7 +72,7 @@ export const translations: Record<Language, TranslationSchema> = {
     nav: {
       title: 'HelpUS',
       subtitle: 'Estúdio de Gerador de Áudio Neural com IA',
-      subdomain: 'voz.helpusbr.com',
+      subdomain: 'voice.helpusbr.com',
       createAccount: 'Criar Conta SaaS'
     },
     hero: {
@@ -127,7 +127,7 @@ export const translations: Record<Language, TranslationSchema> = {
       whatsappTitle: 'Pronto para WhatsApp',
       whatsappDesc: 'Exporte e compartilhe áudios perfeitos para atendimento automatizado de clientes.',
       saasTitle: 'Pronto para Vercel SaaS',
-      saasDesc: 'Configurado para o subdomínio voz.helpusbr.com no ecossistema HelpUS.'
+      saasDesc: 'Configurado para o subdomínio voice.helpusbr.com no ecossistema HelpUS.'
     },
     footer: {
       rights: '© 2026 HelpUS Voice — Todos os direitos reservados. Ecossistema HelpUS BR.',
@@ -138,7 +138,7 @@ export const translations: Record<Language, TranslationSchema> = {
     nav: {
       title: 'HelpUS',
       subtitle: 'AI Neural Audio Generator Studio',
-      subdomain: 'voz.helpusbr.com',
+      subdomain: 'voice.helpusbr.com',
       createAccount: 'Create SaaS Account'
     },
     hero: {
@@ -193,7 +193,7 @@ export const translations: Record<Language, TranslationSchema> = {
       whatsappTitle: 'WhatsApp Ready',
       whatsappDesc: 'Export and share crystal-clear audio messages for automated customer service.',
       saasTitle: 'Vercel SaaS Ready',
-      saasDesc: 'Configured for the voz.helpusbr.com subdomain in the HelpUS ecosystem.'
+      saasDesc: 'Configured for the voice.helpusbr.com subdomain in the HelpUS ecosystem.'
     },
     footer: {
       rights: '© 2026 HelpUS Voice — All rights reserved. HelpUS BR Ecosystem.',
@@ -204,7 +204,7 @@ export const translations: Record<Language, TranslationSchema> = {
     nav: {
       title: 'HelpUS',
       subtitle: 'Estudio Generador de Audio Neural con IA',
-      subdomain: 'voz.helpusbr.com',
+      subdomain: 'voice.helpusbr.com',
       createAccount: 'Crear Cuenta SaaS'
     },
     hero: {
@@ -259,7 +259,7 @@ export const translations: Record<Language, TranslationSchema> = {
       whatsappTitle: 'Listo para WhatsApp',
       whatsappDesc: 'Exporta y comparte audios perfectos para atención automatizada al cliente.',
       saasTitle: 'Listo para Vercel SaaS',
-      saasDesc: 'Configurado para el subdominio voz.helpusbr.com en el ecosistema HelpUS.'
+      saasDesc: 'Configurado para el subdominio voice.helpusbr.com en el ecosistema HelpUS.'
     },
     footer: {
       rights: '© 2026 HelpUS Voice — Todos los derechos reservados. Ecosistema HelpUS BR.',
