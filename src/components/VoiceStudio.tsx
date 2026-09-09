@@ -51,11 +51,22 @@ export const VoiceStudio: React.FC<VoiceStudioProps> = ({ t, initialText = '' })
           setAudioUrl(`${baseUrl}${data.audioUrl}`);
         }
       } else {
-        alert(t.serverError);
+        // Fallback: Web Speech API for instant browser playback
+        if ('speechSynthesis' in window) {
+          window.speechSynthesis.cancel();
+          const utterance = new SpeechSynthesisUtterance(text);
+          utterance.lang = 'pt-BR';
+          window.speechSynthesis.speak(utterance);
+        }
       }
     } catch (err) {
       console.error(err);
-      alert(t.serverError);
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'pt-BR';
+        window.speechSynthesis.speak(utterance);
+      }
     } finally {
       setLoading(false);
     }
